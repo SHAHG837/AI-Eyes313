@@ -1,97 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-Eyes313 Commander</title>
 
     <style>
-
-        body{
-            font-family:Arial;
-            background:#0f172a;
-            color:white;
-            margin:0;
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            margin: 0;
         }
 
-        header{
-            background:#1e293b;
-            padding:20px;
-            text-align:center;
+        header {
+            background: #1e293b;
+            padding: 20px;
+            text-align: center;
         }
 
-        .container{
-            padding:30px;
+        .container {
+            padding: 30px;
         }
 
-        .card{
-            background:#1e293b;
-            padding:20px;
-            margin:20px 0;
-            border-radius:15px;
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
         }
 
-        button{
-            padding:12px 20px;
-            border:none;
-            border-radius:10px;
-            cursor:pointer;
-            font-size:16px;
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            box-sizing: border-box;
         }
 
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        #response {
+            margin-top: 15px;
+            line-height: 1.6;
+        }
     </style>
-
 </head>
 
 <body>
 
 <header>
-
-<h1>AI-Eyes313 Commander</h1>
-
-<p>All-in-One AI Operating System</p>
-
+    <h1>AI-Eyes313 Commander</h1>
+    <p>All-in-One AI Operating System</p>
 </header>
 
 <div class="container">
 
-<div class="card">
+    <div class="card">
+        <h2>🤖 AI Chatbot</h2>
 
-<h2>🤖 AI Chatbot</h2>
+        <p>Ask anything from Gemini AI</p>
 
-<p>Gemini Chat Module</p>
+        <input type="text" id="prompt" placeholder="اپنا سوال لکھیں">
 
-<button onclick="alert('Coming Soon')">
-Open
-</button>
+        <button onclick="askAI()">
+            Ask AI
+        </button>
 
-</div>
+        <p id="response"></p>
+    </div>
 
+    <div class="card">
+        <h2>🎨 Image Generator</h2>
 
-<div class="card">
+        <p>Graphics Designer Hub</p>
 
-<h2>🎨 Image Generator</h2>
+        <button onclick="alert('Image Generator Coming Soon')">
+            Open
+        </button>
+    </div>
 
-<p>Graphics Designer Hub</p>
+    <div class="card">
+        <h2>🎓 Student Assistant</h2>
 
-<button onclick="alert('Coming Soon')">
-Open
-</button>
+        <p>Study Tools</p>
 
-</div>
-
-
-<div class="card">
-
-<h2>🎓 Student Assistant</h2>
-
-<p>Study Tools</p>
-
-<button onclick="alert('Coming Soon')">
-Open
-</button>
+        <button onclick="alert('Student Assistant Coming Soon')">
+            Open
+        </button>
+    </div>
 
 </div>
 
-</div>
+<script src="script.js"></script>
 
 </body>
 </html>
