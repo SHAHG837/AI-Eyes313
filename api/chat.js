@@ -42,3 +42,5 @@ export default async function handler(req, res) {
         });
     }
 }
+console.log("API KEY:", process.env.GEMINI_API_KEY);
+console.log("RAW RESPONSE:", await response.text());
