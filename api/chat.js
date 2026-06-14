@@ -6,47 +6,33 @@ export default async function handler(req, res) {
     try {
         const { prompt } = req.body;
 
-        const apiKey = process.env.GEMINI_API_KEY;
-
-        if (!apiKey) {
-            return res.status(500).json({ error: "API Key missing" });
-        }
-
         const response = await fetch(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey,
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+            process.env.GEMINI_API_KEY,
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     contents: [
                         {
-                            parts: [{ text: prompt }],
-                        },
-                    ],
-                }),
+                            parts: [{ text: prompt }]
+                        }
+                    ]
+                })
             }
         );
 
         const data = await response.json();
 
-        // 🔥 DEBUG: اگر error آئے تو دکھاؤ
-        if (!response.ok) {
-            return res.status(500).json({
-                error: data,
-            });
-        }
-
         const answer =
             data?.candidates?.[0]?.content?.parts?.[0]?.text ||
             "No response from AI";
 
-        res.status(200).json({ answer });
+        return res.status(200).json({ answer });
 
     } catch (error) {
-        res.status(500).json({
-            error: error.message,
-        });
+        return res.status(500).json({ error: error.message });
     }
 }

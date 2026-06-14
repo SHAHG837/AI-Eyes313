@@ -6,11 +6,6 @@ export default async function handler(req, res) {
     try {
         const { prompt } = req.body;
 
-        if (!prompt) {
-            return res.status(400).json({ error: "Prompt required" });
-        }
-
-        // ⚠️ Demo AI Image (Next step: real AI API)
         const imageUrl =
             "https://image.pollinations.ai/prompt/" +
             encodeURIComponent(prompt);

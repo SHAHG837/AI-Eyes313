@@ -5,31 +5,31 @@
 <title>AI-Eyes313 Commander</title>
 
 <style>
-body {
+body{
     font-family: Arial;
     background: #0f172a;
     color: white;
     margin: 0;
 }
 
-header {
+header{
     background: #1e293b;
     padding: 20px;
     text-align: center;
 }
 
-.container {
+.container{
     padding: 20px;
 }
 
-.card {
+.card{
     background: #1e293b;
     padding: 20px;
     margin: 20px 0;
     border-radius: 12px;
 }
 
-input, textarea {
+input, textarea{
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -37,7 +37,7 @@ input, textarea {
     border: none;
 }
 
-button {
+button{
     padding: 10px 15px;
     margin-top: 10px;
     border: none;
@@ -45,10 +45,11 @@ button {
     cursor: pointer;
 }
 
-img {
+img{
     width: 100%;
     margin-top: 10px;
     border-radius: 10px;
+    display: block;
 }
 </style>
 </head>
@@ -77,11 +78,11 @@ img {
 <div class="card">
 <h2>🎨 AI Image Generator</h2>
 
-<textarea id="imgPrompt" placeholder="Image prompt لکھیں..."></textarea>
+<textarea id="imgPrompt" placeholder="Image prompt لکھیں"></textarea>
 
 <button onclick="generateImage()">Generate Image</button>
 
-<img id="resultImage" />
+<img id="resultImage">
 <p id="imgStatus"></p>
 </div>
 

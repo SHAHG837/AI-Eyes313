@@ -1,16 +1,14 @@
-// =========================
-// 🤖 AI CHATBOT FUNCTION
-// =========================
+// 🤖 CHATBOT
 async function askAI() {
     const prompt = document.getElementById("prompt").value;
-    const responseBox = document.getElementById("response");
+    const response = document.getElementById("response");
 
     if (!prompt) {
-        responseBox.innerText = "Please write something...";
+        response.innerText = "Please write something...";
         return;
     }
 
-    responseBox.innerText = "AI سوچ رہا ہے... 🤖";
+    response.innerText = "AI سوچ رہا ہے... 🤖";
 
     try {
         const res = await fetch("/api/chat", {
@@ -23,16 +21,14 @@ async function askAI() {
 
         const data = await res.json();
 
-        responseBox.innerText = data.answer || "No response from AI";
-    } catch (error) {
-        responseBox.innerText = "Error: " + error.message;
+        response.innerText = data.answer || "No response";
+    } catch (err) {
+        response.innerText = "Error: " + err.message;
     }
 }
 
 
-// =========================
-// 🎨 IMAGE GENERATOR
-// =========================
+// 🎨 IMAGE GENERATOR (FIXED REAL SHOW IMAGE)
 async function generateImage() {
     const prompt = document.getElementById("imgPrompt").value;
     const img = document.getElementById("resultImage");
@@ -56,14 +52,18 @@ async function generateImage() {
 
         const data = await res.json();
 
+        console.log(data);
+
         if (data.image) {
             img.src = data.image;
-            status.innerText = "Image generated successfully!";
+            img.onload = () => {
+                status.innerText = "Image generated successfully!";
+            };
         } else {
             status.innerText = "No image received";
         }
 
-    } catch (error) {
-        status.innerText = "Error: " + error.message;
+    } catch (err) {
+        status.innerText = "Error: " + err.message;
     }
 }
