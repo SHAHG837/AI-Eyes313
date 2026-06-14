@@ -1,26 +1,3 @@
-// 🤖 CHATBOT (Gemini already working)
-async function askAI() {
-    const prompt = document.getElementById("prompt").value;
-    const response = document.getElementById("response");
-
-    response.innerText = "Thinking...";
-
-    try {
-        const res = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt })
-        });
-
-        const data = await res.json();
-        response.innerText = data.answer;
-    } catch (err) {
-        response.innerText = "Error: " + err.message;
-    }
-}
-
-
-// 🎨 IMAGE GENERATOR (Mock + API Ready)
 async function generateImage() {
     const prompt = document.getElementById("imgPrompt").value;
     const img = document.getElementById("resultImage");
@@ -31,11 +8,22 @@ async function generateImage() {
         return;
     }
 
-    status.innerText = "Generating image...";
+    status.innerText = "AI image generate ho rahi hai...";
 
-    // ⚠️ Demo Image (placeholder)
-    setTimeout(() => {
-        img.src = "https://via.placeholder.com/512x512.png?text=" + encodeURIComponent(prompt);
-        status.innerText = "Image generated (Demo Mode)";
-    }, 1500);
+    try {
+        const response = await fetch("/api/image", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await response.json();
+
+        img.src = data.image;
+        status.innerText = "Image generated successfully!";
+    } catch (error) {
+        status.innerText = "Error: " + error.message;
+    }
 }
