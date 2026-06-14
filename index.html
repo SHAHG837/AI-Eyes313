@@ -26,14 +26,14 @@ header {
     background: #1e293b;
     padding: 20px;
     margin: 20px 0;
-    border-radius: 15px;
+    border-radius: 12px;
 }
 
 input, textarea {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    border-radius: 10px;
+    border-radius: 8px;
     border: none;
 }
 
@@ -41,7 +41,7 @@ button {
     padding: 10px 15px;
     margin-top: 10px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
@@ -65,8 +65,11 @@ img {
 <!-- 🤖 CHATBOT -->
 <div class="card">
 <h2>🤖 AI Chatbot</h2>
+
 <input id="prompt" placeholder="اپنا سوال لکھیں">
+
 <button onclick="askAI()">Ask AI</button>
+
 <p id="response"></p>
 </div>
 
@@ -76,9 +79,7 @@ img {
 
 <textarea id="imgPrompt" placeholder="Image prompt لکھیں..."></textarea>
 
-<button onclick="generateImage()">
-Generate Image
-</button>
+<button onclick="generateImage()">Generate Image</button>
 
 <img id="resultImage" />
 <p id="imgStatus"></p>

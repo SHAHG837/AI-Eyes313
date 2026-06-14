@@ -1,3 +1,38 @@
+// =========================
+// 🤖 AI CHATBOT FUNCTION
+// =========================
+async function askAI() {
+    const prompt = document.getElementById("prompt").value;
+    const responseBox = document.getElementById("response");
+
+    if (!prompt) {
+        responseBox.innerText = "Please write something...";
+        return;
+    }
+
+    responseBox.innerText = "AI سوچ رہا ہے... 🤖";
+
+    try {
+        const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await res.json();
+
+        responseBox.innerText = data.answer || "No response from AI";
+    } catch (error) {
+        responseBox.innerText = "Error: " + error.message;
+    }
+}
+
+
+// =========================
+// 🎨 IMAGE GENERATOR
+// =========================
 async function generateImage() {
     const prompt = document.getElementById("imgPrompt").value;
     const img = document.getElementById("resultImage");
@@ -8,10 +43,10 @@ async function generateImage() {
         return;
     }
 
-    status.innerText = "AI image generate ho rahi hai...";
+    status.innerText = "Generating image...";
 
     try {
-        const response = await fetch("/api/image", {
+        const res = await fetch("/api/image", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -19,10 +54,15 @@ async function generateImage() {
             body: JSON.stringify({ prompt })
         });
 
-        const data = await response.json();
+        const data = await res.json();
 
-        img.src = data.image;
-        status.innerText = "Image generated successfully!";
+        if (data.image) {
+            img.src = data.image;
+            status.innerText = "Image generated successfully!";
+        } else {
+            status.innerText = "No image received";
+        }
+
     } catch (error) {
         status.innerText = "Error: " + error.message;
     }
