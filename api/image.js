@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-    // صرف POST ریکوئسٹ کو اجازت دیں
+    // صرف POST ریکوئسٹ کو اندر آنے دیں
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Method not allowed" });
     }
@@ -10,29 +10,30 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "Prompt is required" });
         }
 
-        // Step 1: پرامپٹ کو یو آر ایل فرینڈلی بنائیں (Spaces کو %20 میں بدلتا ہے)
+        // پرامپٹ کو صاف اور انکوڈ کریں
         const cleanPrompt = encodeURIComponent(prompt.trim());
         const targetUrl = `https://image.pollinations.ai/prompt/${cleanPrompt}?width=512&height=512&nologo=true`;
 
-        // Step 2: ورسیل سرور خود پولینیشنز سرور سے تصویر ڈاؤن لوڈ کرے گا
-        const imageResponse = await fetch(targetUrl);
+        // پولینیشنز سرور کو ہٹ کریں
+        const response = await fetch(targetUrl);
         
-        if (!imageResponse.ok) {
-            throw new Error("Failed to fetch image from Pollinations AI");
+        if (!response.ok) {
+            return res.status(502).json({ error: "Pollinations AI integration failed" });
         }
 
-        // Step 3: تصویر کو بائنری ڈیٹا (ArrayBuffer) میں تبدیل کریں
-        const arrayBuffer = await imageResponse.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
+        // 🚨 فول پروف طریقہ: تصویر کے ڈیٹا کو بلاک بائی بلاک (Chunks) جمع کرنا
+        const blob = await response.blob();
+        const buffer = Buffer.from(await blob.arrayBuffer());
 
-        // Step 4: براؤزر کو بتائیں کہ یہ کوئی ٹیکسٹ یا جے ایس او این نہیں بلکہ تصویر ہے
+        // براؤزر کو بتائیں کہ جے ایس او این نہیں، جے پی ای جی امیج آ رہی ہے
         res.setHeader("Content-Type", "image/jpeg");
         res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
         
-        // Step 5: تصویر کا بفر فرنٹ اینڈ کو بھیج دیں
+        // بفر ڈیٹا سینڈ کریں
         return res.status(200).send(buffer);
 
     } catch (error) {
+        // اگر کوئی بھی مسئلہ ہو تو فرنٹ اینڈ کو صاف ایرر میسج جائے
         return res.status(500).json({ error: error.message });
     }
 }
