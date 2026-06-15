@@ -1,94 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>AI-Eyes313 Commander</title>
+    <meta charset="UTF-8">
+    <title>AI-Eyes313 Commander</title>
 
-<style>
-body{
-    font-family: Arial;
-    background: #0f172a;
-    color: white;
-    margin: 0;
-}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            margin: 0;
+        }
 
-header{
-    background: #1e293b;
-    padding: 20px;
-    text-align: center;
-}
+        header {
+            background: #1e293b;
+            padding: 20px;
+            text-align: center;
+        }
 
-.container{
-    padding: 20px;
-}
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-.card{
-    background: #1e293b;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 12px;
-}
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
 
-input, textarea{
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: none;
-}
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            box-sizing: border-box;
+        }
 
-button{
-    padding: 10px 15px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #3b82f6;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-img{
-    width: 100%;
-    margin-top: 10px;
-    border-radius: 10px;
-    display: block;
-}
-</style>
+        button:hover {
+            background: #2563eb;
+        }
+
+        /* 🚨 امیج کا بہتر سی ایس ایس فکس */
+        img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            margin-top: 15px;
+            border-radius: 10px;
+            display: none; /* شروع میں تصویر چھپی رہے گی */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        #response {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            white-space: pre-wrap; /* ٹیکسٹ فارمیٹ خراب نہ ہو */
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-<h1>AI-Eyes313 Commander</h1>
-<p>All-in-One AI System</p>
-</header>
+    <header>
+        <h1>AI-Eyes313 Commander</h1>
+        <p>All-in-One AI System</p>
+    </header>
 
-<div class="container">
+    <div class="container">
 
-<!-- 🤖 CHATBOT -->
-<div class="card">
-<h2>🤖 AI Chatbot</h2>
+        <!-- 🤖 CHATBOT -->
+        <div class="card">
+            <h2>🤖 AI Chatbot</h2>
+            <input id="prompt" placeholder="اپنا سوال لکھیں...">
+            <button onclick="askAI()">Ask AI</button>
+            <p id="response">بوٹ کا جواب یہاں نظر آئے گا...</p>
+        </div>
 
-<input id="prompt" placeholder="اپنا سوال لکھیں">
+        <!-- 🎨 IMAGE GENERATOR -->
+        <div class="card">
+            <h2>🎨 AI Image Generator</h2>
+            <textarea id="imgPrompt" placeholder="تصویر بنانے کے لیے تفصیل (Prompt) لکھیں..."></textarea>
+            <button onclick="generateImage()">Generate Image</button>
+            
+            <!-- تصویر کا بنیادی ٹیگ -->
+            <img id="resultImage" alt="AI Generated Output">
+            <p id="imgStatus"></p>
+        </div>
 
-<button onclick="askAI()">Ask AI</button>
+    </div>
 
-<p id="response"></p>
-</div>
-
-<!-- 🎨 IMAGE GENERATOR -->
-<div class="card">
-<h2>🎨 AI Image Generator</h2>
-
-<textarea id="imgPrompt" placeholder="Image prompt لکھیں"></textarea>
-
-<button onclick="generateImage()">Generate Image</button>
-
-<img id="resultImage">
-<p id="imgStatus"></p>
-</div>
-
-</div>
-
-<script src="script.js"></script>
+    <!-- فرنٹ اینڈ جاوا اسکرپٹ فائل کا لنک -->
+    <script src="script.js"></script>
 
 </body>
 </html>

@@ -1,14 +1,14 @@
-// 🤖 CHATBOT
+// 🤖 1. چیٹ بوٹ فنکشن (جیمنائی کے لیے)
 async function askAI() {
-    const prompt = document.getElementById("prompt").value;
-    const response = document.getElementById("response");
+    const promptValue = document.getElementById("prompt").value;
+    const responseElement = document.getElementById("response");
 
-    if (!prompt) {
-        response.innerText = "Please write something...";
+    if (!promptValue) {
+        responseElement.innerText = "Please write something...";
         return;
     }
 
-    response.innerText = "AI سوچ رہا ہے... 🤖";
+    responseElement.innerText = "AI سوچ رہا ہے... 🤖";
 
     try {
         const res = await fetch("/api/chat", {
@@ -16,30 +16,31 @@ async function askAI() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ prompt })
+            body: JSON.stringify({ prompt: promptValue })
         });
 
         const data = await res.json();
+        responseElement.innerText = data.answer || "No response";
 
-        response.innerText = data.answer || "No response";
     } catch (err) {
-        response.innerText = "Error: " + err.message;
+        responseElement.innerText = "Error: " + err.message;
     }
 }
 
 
-// 🎨 IMAGE GENERATOR (FIXED REAL SHOW IMAGE)
+// 🎨 2. امیج جنریٹر فنکشن (پولینیشنز کے لیے - 100٪ فکسڈ)
 async function generateImage() {
-    const prompt = document.getElementById("imgPrompt").value;
-    const img = document.getElementById("resultImage");
-    const status = document.getElementById("imgStatus");
+    const promptValue = document.getElementById("imgPrompt").value;
+    const imgElement = document.getElementById("resultImage");
+    const statusElement = document.getElementById("imgStatus");
 
-    if (!prompt) {
-        status.innerText = "Please write prompt";
+    if (!promptValue) {
+        statusElement.innerText = "Please write a prompt!";
         return;
     }
 
-    status.innerText = "Generating image...";
+    statusElement.innerText = "Generating image... Please wait 🚀";
+    imgElement.style.display = "none"; // نئی تصویر بننے تک پرانی تصویر چھپا دیں
 
     try {
         const res = await fetch("/api/image", {
@@ -47,23 +48,26 @@ async function generateImage() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ prompt })
+            body: JSON.stringify({ prompt: promptValue })
         });
 
         const data = await res.json();
-
-        console.log(data);
+        console.log("Backend Response:", data);
 
         if (data.image) {
-            img.src = data.image;
-            img.onload = () => {
-                status.innerText = "Image generated successfully!";
+            // 🖼️ تصویر کا لنک امیج ٹیگ کے 'src' میں ڈالیں
+            imgElement.src = data.image;
+
+            // جب تصویر انٹرنیٹ سے مکمل ڈاؤن لوڈ ہو جائے، تبھی اسکرین پر شو ہو
+            imgElement.onload = () => {
+                imgElement.style.display = "block"; // تصویر شو کریں
+                statusElement.innerText = "Image generated successfully! 🎉";
             };
         } else {
-            status.innerText = "No image received";
+            statusElement.innerText = "No image received from backend.";
         }
 
     } catch (err) {
-        status.innerText = "Error: " + err.message;
+        statusElement.innerText = "Error: " + err.message;
     }
 }
