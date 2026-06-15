@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Eyes313 Commander</title>
+    <title>AI-Eyes313 Commander Suite</title>
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -46,9 +46,13 @@
             font-size: 1rem;
         }
         textarea { height: 100px; resize: vertical; }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
         button { 
             padding: 12px 24px; 
-            margin-top: 15px; 
             border: none; 
             border-radius: 8px; 
             background: #3b82f6; 
@@ -56,10 +60,19 @@
             font-weight: bold; 
             font-size: 1rem;
             cursor: pointer; 
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
         }
         button:hover { 
             background: #2563eb; 
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        button.voice-btn {
+            background: #10b981;
+        }
+        button.voice-btn:hover {
+            background: #059669;
         }
         .img-container { 
             width: 100%; 
@@ -84,7 +97,7 @@
             border: 1px solid #334155;
             color: #cbd5e1;
         }
-        #imgStatus { 
+        .status-txt { 
             font-weight: bold; 
             margin-top: 15px; 
             color: #38bdf8; 
@@ -96,28 +109,34 @@
 
     <header>
         <h1>AI-Eyes313 Commander</h1>
-        <p>Advanced AI Chat & Image Suite</p>
+        <p>Advanced Multimodal AI Suite (Voice & HD Integrated)</p>
     </header>
 
     <div class="container">
         <!-- 🤖 CHATBOT SECTION -->
         <div class="card">
             <h2>🤖 AI Chatbot</h2>
-            <input id="prompt" placeholder="Ask Gemini anything...">
-            <button onclick="askAI()">Ask AI</button>
+            <input id="prompt" placeholder="Ask Gemini anything or use Voice...">
+            <div class="btn-group">
+                <button onclick="askAI()">Ask AI</button>
+                <button class="voice-btn" onclick="startVoice('prompt', 'response')">🎙️ Speak (بولو)</button>
+            </div>
             <p id="response">بوٹ کا جواب یہاں نظر آئے گا...</p>
         </div>
 
         <!-- 🎨 IMAGE GENERATOR SECTION -->
         <div class="card">
-            <h2>🎨 AI Image Generator</h2>
-            <textarea id="imgPrompt" placeholder="Describe the image you want to generate (e.g., 'luxury sports car on Lahore roads, 8k')..."></textarea>
-            <button onclick="generateImage()">Generate Image</button>
+            <h2>🎨 AI Image Generator (Ultra-HD Auto)</h2>
+            <textarea id="imgPrompt" placeholder="Describe your image (e.g., 'sports bike on road'). System will auto-boost to Ultra Realistic HD..."></textarea>
+            <div class="btn-group">
+                <button onclick="generateImage()">Generate Image</button>
+                <button class="voice-btn" onclick="startVoice('imgPrompt', 'imgStatus')">🎙️ Speak (بولو)</button>
+            </div>
             
             <div class="img-container">
                 <img id="resultImage" alt="AI Generated Output">
             </div>
-            <p id="imgStatus"></p>
+            <p id="imgStatus" class="status-txt"></p>
         </div>
     </div>
 

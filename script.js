@@ -1,10 +1,10 @@
-// 🤖 1. CHATBOT FUNCTION (Gemini API Call via Vercel Backend)
+// 🤖 1. GEMINI CHAT ENGINE
 async function askAI() {
     const promptValue = document.getElementById("prompt").value;
     const responseElement = document.getElementById("response");
 
     if (!promptValue) {
-        responseElement.innerText = "Please write something...";
+        responseElement.innerText = "Please write or speak something first...";
         return;
     }
 
@@ -16,6 +16,9 @@ async function askAI() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt: promptValue })
         });
+        
+        if (!res.ok) throw new Error("Chat engine server error");
+        
         const data = await res.json();
         responseElement.innerText = data.answer || "No response received.";
     } catch (err) {
@@ -23,48 +26,91 @@ async function askAI() {
     }
 }
 
-// 🎨 2. IMAGE GENERATOR FUNCTION (Direct Secure Client-Side Injector)
+// 🎨 2. ULTRA-HD IMAGE GENERATOR ENGINE
 async function generateImage() {
     const promptValue = document.getElementById("imgPrompt").value;
     const imgElement = document.getElementById("resultImage");
     const statusElement = document.getElementById("imgStatus");
 
     if (!promptValue) {
-        statusElement.innerText = "Please write a prompt!";
+        statusElement.innerText = "Please provide a prompt via typing or voice!";
         return;
     }
 
-    // لوڈنگ اسٹیٹس ایکٹیو کریں اور پرانی تصویر غائب کریں
-    statusElement.innerText = "Generating image... Please wait 🚀";
+    statusElement.innerText = "Injecting HD Engines & Generating... Please wait 🚀";
     imgElement.style.display = "none"; 
 
     try {
-        // پرامپٹ کو یو آر ایل فارمیٹ کے مطابق محفوظ طریقے سے انکوڈ کریں
-        const cleanPrompt = encodeURIComponent(promptValue.trim());
+        // ✨ AUTO-HD PROMPT ENGINEERING: تصویر کو خودکار الٹرا ریئلسٹک بنانے کے لیے کمنٹس انجکشن
+        const hdEnhancers = ", photorealistic, 8k resolution, highly detailed, cinematic lighting, masterpiece, sharp focus";
+        const combinedPrompt = promptValue.trim() + hdEnhancers;
         
-        // کیشے بلاکنگ (Cache Busting) کے لیے رینڈم نمبر جنریٹ کریں تاکہ ہر بار نئی تصویر بنے
+        // محفوظ یو آر ایل انکوڈنگ
+        const cleanPrompt = encodeURIComponent(combinedPrompt);
+        
+        // کیشے بریکر بیج (Cache Buster Seed)
         const randomSeed = Math.floor(Math.random() * 999999);
         
-        // ڈائریکٹ لنک جوڑیں
+        // فائنل یو آر ایل تعمیر
         const directImageUrl = `https://image.pollinations.ai/prompt/${cleanPrompt}?width=512&height=512&nologo=true&seed=${randomSeed}`;
 
-        console.log("Requesting URL:", directImageUrl);
+        console.log("Fired HD URL:", directImageUrl);
 
-        // براؤزر کے امیج ٹیگ کو ڈائریکٹ سورس الائن کریں
+        // کلائنٹ سائیڈ انجکشن
         imgElement.src = directImageUrl;
 
-        // جب تصویر انٹرنیٹ سے مکمل ڈاؤن لوڈ ہو جائے
+        // آن لوڈ ہینڈلر (جب بائٹس ڈاؤن لوڈ ہو جائیں)
         imgElement.onload = function() {
-            imgElement.style.display = "block"; // امیج شو کریں
-            statusElement.innerText = "Image generated successfully! 🎉";
+            imgElement.style.display = "block";
+            statusElement.innerText = "Ultra-HD Image generated successfully! 🎉";
         };
 
-        // نیٹ ورک ٹائم آؤٹ یا فیل ڈاون لوڈنگ ہینڈلر
+        // ایرر کیچنگ
         imgElement.onerror = function() {
-            statusElement.innerText = "Error loading image from AI Engine. Please try again with a different prompt.";
+            statusElement.innerText = "Failed to render image. Try altering the prompt parameters.";
         };
 
     } catch (err) {
         statusElement.innerText = "Error: " + err.message;
     }
+}
+
+// 🎙️ 3. UNIVERSAL WEB SPEECH ENGINE (Talking Option)
+function startVoice(targetInputId, statusOutputId) {
+    const inputField = document.getElementById(targetInputId);
+    const statusField = document.getElementById(statusOutputId);
+
+    // براؤزر کمپیٹیبلٹی چیک کریں
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+        alert("Your browser does not support Voice Commands. Please switch to Google Chrome.");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    
+    // سمارٹ بائی لنگول سیٹ اپ: یہ انگلش اور اردو مکس کمانڈز آسانی سے کیچ کرے گا
+    recognition.lang = 'en-US'; 
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    statusField.innerText = "Listening now... Speak into your microphone 🎙️";
+
+    recognition.start();
+
+    // آواز ملنے پر ایکشن لسٹنر
+    recognition.onresult = function(event) {
+        const spokenText = event.results[0][0].transcript;
+        console.log("Captured Voice Output:", spokenText);
+        
+        // ٹیکسٹ فیلڈ میں ڈیٹا پٹ کریں
+        inputField.value = spokenText;
+        statusField.innerText = "Voice captured: '" + spokenText + "'. Press execution button!";
+    };
+
+    // نیٹ ورک یا خاموشی کا ایرر ہینڈلر
+    recognition.onerror = function(event) {
+        statusField.innerText = "Voice processing halted. Error: " + event.error + ". Try again.";
+    };
 }
