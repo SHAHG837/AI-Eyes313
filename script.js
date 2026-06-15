@@ -1,4 +1,4 @@
-// 🤖 1. چیٹ بوٹ فنکشن (جیمنائی کے لیے)
+// 🤖 1. CHATBOT FUNCTION (جیمنائی چیٹ کے لیے)
 async function askAI() {
     const promptValue = document.getElementById("prompt").value;
     const responseElement = document.getElementById("response");
@@ -13,22 +13,17 @@ async function askAI() {
     try {
         const res = await fetch("/api/chat", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt: promptValue })
         });
-
         const data = await res.json();
         responseElement.innerText = data.answer || "No response";
-
     } catch (err) {
         responseElement.innerText = "Error: " + err.message;
     }
 }
 
-
-// 🎨 2. امیج جنریٹر فنکشن (پولینیشنز کے لیے - 100٪ فکسڈ)
+// 🎨 2. IMAGE GENERATOR FUNCTION (پولینیشنز امیج فکس)
 async function generateImage() {
     const promptValue = document.getElementById("imgPrompt").value;
     const imgElement = document.getElementById("resultImage");
@@ -40,31 +35,35 @@ async function generateImage() {
     }
 
     statusElement.innerText = "Generating image... Please wait 🚀";
-    imgElement.style.display = "none"; // نئی تصویر بننے تک پرانی تصویر چھپا دیں
+    imgElement.style.display = "none"; // نئی تصویر بننے تک پرانی تصویر کو سکرین سے غائب کر دیں
 
     try {
         const res = await fetch("/api/image", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt: promptValue })
         });
 
         const data = await res.json();
-        console.log("Backend Response:", data);
+        console.log("Server Response:", data);
 
         if (data.image) {
-            // 🖼️ تصویر کا لنک امیج ٹیگ کے 'src' میں ڈالیں
+            // بیک اینڈ سے آنے والا یو آر ایل امیج کے سورس میں سیٹ کریں
             imgElement.src = data.image;
 
-            // جب تصویر انٹرنیٹ سے مکمل ڈاؤن لوڈ ہو جائے، تبھی اسکرین پر شو ہو
-            imgElement.onload = () => {
-                imgElement.style.display = "block"; // تصویر شو کریں
+            // جب براؤزر انٹرنیٹ سے تصویر پوری طرح ڈاؤن لوڈ کر لے، تب اسکرین پر شو کرے
+            imgElement.onload = function() {
+                imgElement.style.display = "block"; // امیج شو کریں
                 statusElement.innerText = "Image generated successfully! 🎉";
             };
+
+            // اگر تصویر کا لنک اوپن ہونے میں کوئی نیٹ ورک کا مسئلہ آئے
+            imgElement.onerror = function() {
+                statusElement.innerText = "Error loading image resource. Please try again.";
+            };
+
         } else {
-            statusElement.innerText = "No image received from backend.";
+            statusElement.innerText = "No image URL returned from backend.";
         }
 
     } catch (err) {
